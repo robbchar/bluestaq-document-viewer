@@ -41,10 +41,10 @@ Build a reusable component using a modern framework (Angular preferred, but Reac
 
 ### Document Organization
 
-- Group documents by their \`type\`
+- Group documents by their `type`
 - For each type, there will be either:
-  - A single complete document (\`changesOnly: false\`)
-  - OR a pair of documents: one complete (\`changesOnly: false\`) and one showing only changes from previous version (\`changesOnly: true\`)
+  - A single complete document (`changesOnly: false`)
+  - OR a pair of documents: one complete (`changesOnly: false`) and one showing only changes from previous version (`changesOnly: true`)
 
 ### Document Display
 
