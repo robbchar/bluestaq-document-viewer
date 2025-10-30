@@ -1,0 +1,4 @@
+apps/frontend/dist/
+node_modules/
+.cursor/
+vite/
