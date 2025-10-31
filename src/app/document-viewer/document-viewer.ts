@@ -25,9 +25,22 @@ export class DocumentViewer {
 
   selectFile(file: File) {
     this.selectedFile = file;
-    this.fileUrl = this.apiService.getFilePathByLegalFileRecordId(
+    this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(
       file.legalFileRecordId,
     );
-    console.log(this.fileUrl);
+  }
+
+  public downloadFile(): void {
+    if (this.selectedFile) {
+      const filePath = this.apiService.downloadFileByLegalFileRecordId(
+        this.selectedFile.legalFileRecordId,
+      );
+      const a = document.createElement('a');
+      a.href = filePath;
+      document.body.appendChild(a); // Append to body to make it clickable
+      a.click();
+      document.body.removeChild(a); // Clean up
+      window.URL.revokeObjectURL(a.href); // Release the object URL
+    }
   }
 }

@@ -16,17 +16,18 @@ export const fileIdsExist = (ids: string[]) => {
 
 export const getFilePathByLegalFileRecordId = (
   legalFileRecordId: string,
+  cwd: string = process.cwd(),
 ): string => {
   // In development: resolve from src directory
   // In production (after build): resolve from server dist directory
   // Try multiple paths to handle both dev and production scenarios
   const possiblePaths = [
     // Production: assets should be copied to server dist/assets
-    join(process.cwd(), '../assets/files', legalFileRecordId + '.pdf'),
+    join(cwd, '../assets/files', legalFileRecordId + '.pdf'),
     // Development: assets in src directory
-    join(process.cwd(), '../../assets/files', legalFileRecordId + '.pdf'),
-    // Fallback: try from process.cwd()
-    join(process.cwd(), 'src/assets/files', legalFileRecordId + '.pdf'),
+    join(cwd, '../../assets/files', legalFileRecordId + '.pdf'),
+    // Fallback: try from cwd
+    join(cwd, 'src/assets/files', legalFileRecordId + '.pdf'),
   ];
 
   // Return the first path that exists, or the production path as default

@@ -80,8 +80,21 @@
         }
       </div>
       <div class="button-group">
-        <button class="button">Download</button>
-        <button class="button">Open</button>
+        <button
+          [disabled]="!selectedFile"
+          [class.disabled]="!selectedFile"
+          class="button"
+          (click)="downloadFile()"
+        >
+          Download
+        </button>
+        <a
+          [class.disabled]="!selectedFile"
+          class="button"
+          [href]="fileUrl"
+          target="_blank"
+          >Open</a
+        >
       </div>
     </div>
   </div>
