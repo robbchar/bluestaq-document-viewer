@@ -8,19 +8,28 @@ import { File } from '../types';
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
+  host = 'http://localhost:4000';
 
   getData(): Observable<File[]> {
-    const apiUrl = 'http://localhost:4200/api/data';
+    const apiUrl = `${this.host}/api/data`;
     return this.http.get<File[]>(apiUrl);
   }
 
   getFileById(id: string): Observable<File> {
-    const apiUrl = `http://localhost:4200/api/data/${id}`;
+    const apiUrl = `${this.host}/api/data/${id}`;
     return this.http.get<File>(apiUrl);
   }
 
   getUserAgreement(fileIds: string[]): Observable<string> {
-    const apiUrl = 'http://localhost:4200/api/data/user-agreement';
+    const apiUrl = `${this.host}/api/data/user-agreement`;
     return this.http.post<string>(apiUrl, { fileIds });
+  }
+
+  getFileUrl(legalFileRecordId: string): string {
+    return `${this.host}/api/data/file/path/${legalFileRecordId}`;
+  }
+
+  getFilePathByLegalFileRecordId(legalFileRecordId: string): string {
+    return `${this.host}/api/data/file/path/${legalFileRecordId}`;
   }
 }

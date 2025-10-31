@@ -60,8 +60,6 @@
 .content-display {
   background-color: #e0e0e0;
   border: 0.0625rem solid #666;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -128,7 +126,7 @@
   gap: 0.25rem;
 }
 .content-display {
-  height: 15.625rem;
+  height: 45.625rem;
 }
 
 .button-group {
@@ -196,7 +194,7 @@
   }
 
   .content-display {
-    height: 25rem;
+    height: 45.625rem;
   }
 
   .button-group {
@@ -208,4 +206,8 @@
     width: auto;
     min-width: 6.25rem;
   }
+}
+
+.hidden {
+  display: none;
 }

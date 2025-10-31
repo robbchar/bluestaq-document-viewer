@@ -60,9 +60,24 @@
         </div>
       </div>
       <div class="content-display">
-        <span class="content-display-text"
+        <span [class.hidden]="fileUrl" class="content-display-text"
           >No document selected, please select a document to view.</span
         >
+
+        @defer {
+          <pdf-viewer
+            [class.hidden]="!fileUrl"
+            [src]="fileUrl"
+            [render-text]="true"
+            [original-size]="false"
+            [autoresize]="true"
+            style="width: 100%; height: 100%"
+          ></pdf-viewer>
+        } @placeholder {
+          <div>Loading PDF viewer...</div>
+        } @loading {
+          <div>Loading PDF...</div>
+        }
       </div>
       <div class="button-group">
         <button class="button">Download</button>
