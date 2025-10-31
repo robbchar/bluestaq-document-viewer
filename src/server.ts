@@ -6,7 +6,13 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
-import { fileIdsExist, getFileById, getFiles } from './app/services/files';
+import {
+  fileIdsExist,
+  getFileById,
+  getFiles,
+  getFilePathByLegalFileRecordId,
+} from './app/services/files';
+import { existsSync } from 'node:fs';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -22,9 +28,27 @@ app.get('/api/data', (_, res) => {
 app.get('/api/data/:legalFileRecordId', (req, res) => {
   const fileRecord = getFileById(req.params.legalFileRecordId);
   if (!fileRecord) {
-    res.status(404).json({ error: 'File not found' });
+    res.status(404).json({ error: 'File record not found' });
   } else {
     res.json(fileRecord);
+  }
+});
+
+app.get('/api/data/file/path/:legalFileRecordId', (req, res) => {
+  const filePath = getFilePathByLegalFileRecordId(req.params.legalFileRecordId);
+  if (!existsSync(filePath)) {
+    res.status(404).json({ error: 'File not found' });
+  } else {
+    res.sendFile(filePath);
+  }
+});
+
+app.get('/api/data/file/download/:legalFileRecordId', (req, res) => {
+  const filePath = getFilePathByLegalFileRecordId(req.params.legalFileRecordId);
+  if (!existsSync(filePath)) {
+    res.status(404).json({ error: 'File not found' });
+  } else {
+    res.sendFile(filePath);
   }
 });
 
