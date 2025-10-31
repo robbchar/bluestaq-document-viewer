@@ -16,12 +16,32 @@
   border-radius: 0;
 }
 
-/* Common styles for elements */
-.preview-box,
-.mobile-preview-box {
+.preview-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
   background-color: white;
   border: 0.0625rem solid #666;
   border-radius: 0.5rem;
+  width: 100%;
+  height: 9.375rem;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+
+  .preview-box-item {
+    display: flex;
+    gap: 0.25rem;
+    cursor: default;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    &.sub-item {
+      margin-left: 0.5rem;
+    }
+
+    p {
+      cursor: pointer;
+    }
+  }
 }
 
 .header-bar {
@@ -37,7 +57,8 @@
 .content-display {
   background-color: #e0e0e0;
   border: 0.0625rem solid #666;
-  border-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
   flex-grow: 1;
   display: flex;
   align-items: center;
@@ -49,7 +70,7 @@
 
 .button-group {
   display: flex;
-  gap: 0.625rem;
+  gap: 0.5rem;
 }
 
 .button {
@@ -63,14 +84,12 @@
   text-align: center;
   text-decoration: none;
   transition: background-color 0.2s ease;
-}
-
-.button:hover {
-  background-color: #d0d0d0;
-}
-
-.button:active {
-  background-color: #c0c0c0;
+  &:hover {
+    background-color: #d0d0d0;
+  }
+  &:active {
+    background-color: #c0c0c0;
+  }
 }
 
 .web-left-panel {
@@ -81,14 +100,13 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 0.625rem;
+  gap: 0.5rem;
   padding: 0.625rem;
   background-color: #e0e0e0;
   border-radius: 0.5rem;
 }
 
 .mobile-preview-box {
-  display: block;
   width: 100%;
   height: 5rem;
   margin: 0 auto;
@@ -117,8 +135,25 @@
   width: 100%;
 }
 
+.mobile-preview-box,
+.web-left-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 0.25rem;
+  padding-top: 0.5rem;
+  border-right: 0.0625rem solid #ccc;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.web-left-panel {
+  display: none;
+}
+
 /* --- Web Version (Media Query - Max 75rem) --- */
-@media (min-width: 25.0625rem) {
+@media (min-width: 28.25rem) {
   .layout-container {
     flex-direction: row;
     max-width: 75rem;
@@ -129,30 +164,22 @@
     display: flex;
     flex-direction: column;
     width: 15.625rem;
-    padding: 0.625rem;
-    background-color: #e0e0e0;
-    border-right: 0.0625rem solid #ccc;
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
   }
 
   .web-left-panel .preview-box {
-    width: 100%;
     height: 9.375rem;
-    margin-bottom: 0.9375rem;
   }
 
   .right-content-panel {
     flex-grow: 1;
-    padding: 0.9375rem;
+    padding: 0.25rem;
+    padding-top: 0.5rem;
     background-color: #e0e0e0;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
-    gap: 0.9375rem;
+    gap: 0.5rem;
   }
 
   .mobile-preview-box {

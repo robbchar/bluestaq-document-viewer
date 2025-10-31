@@ -1,11 +1,37 @@
 <div class="layout-wrapper">
   <div class="layout-container">
     <div class="web-left-panel">
-      <div class="preview-box"></div>
+      <div class="preview-box">
+        @for (file of files; track file.legalFileRecordId) {
+          <div class="preview-box-item" [class.sub-item]="file.changesOnly">
+            <input
+              class="preview-box-item"
+              type="checkbox"
+              value=""
+              id="checkbox-{{ file.legalFileRecordId }}"
+            />
+            <p>{{ file.fileName }}</p>
+          </div>
+        }
+      </div>
     </div>
 
     <div class="right-content-panel">
-      <div class="mobile-preview-box"></div>
+      <div class="mobile-preview-box">
+        <div class="preview-box">
+          @for (file of files; track file.legalFileRecordId) {
+            <div class="preview-box-item" [class.sub-item]="file.changesOnly">
+              <input
+                class="preview-box-item"
+                type="checkbox"
+                value=""
+                id="checkbox-{{ file.legalFileRecordId }}"
+              />
+              <p>{{ file.fileName }}</p>
+            </div>
+          }
+        </div>
+      </div>
 
       <div class="header-bar">
         <div class="header-bar-item"><span class="label">Filename:</span></div>

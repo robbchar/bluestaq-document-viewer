@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ApiService } from '../services/api-service';
+import { File } from '../types';
 
 @Component({
   selector: 'app-document-viewer',
@@ -7,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './document-viewer.css',
 })
 export class DocumentViewer {
+  files: File[] = [];
+  constructor(private apiService: ApiService) {
+    this.loadFiles();
+  }
 
+  loadFiles() {
+    this.apiService.getData().subscribe((data) => {
+      this.files = data;
+    });
+  }
 }
