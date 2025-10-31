@@ -1,3 +1,4 @@
+import { join } from 'path';
 import files from './files.json';
 
 export const getFiles = () => {
@@ -10,4 +11,8 @@ export const getFileById = (id: string) => {
 
 export const fileIdsExist = (ids: string[]) => {
   return ids.every((id) => getFileById(id) !== undefined);
+};
+
+export const getFilePathByLegalFileRecordId = (legalFileRecordId: string) => {
+  return join(import.meta.dirname, '../files', legalFileRecordId);
 };
