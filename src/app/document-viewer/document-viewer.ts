@@ -10,6 +10,7 @@ import { File } from '../types';
 })
 export class DocumentViewer {
   files: File[] = [];
+  selectedFile: File | null = null;
   constructor(private apiService: ApiService) {
     this.loadFiles();
   }
@@ -18,5 +19,9 @@ export class DocumentViewer {
     this.apiService.getData().subscribe((data) => {
       this.files = data;
     });
+  }
+
+  selectFile(file: File) {
+    this.selectedFile = file;
   }
 }

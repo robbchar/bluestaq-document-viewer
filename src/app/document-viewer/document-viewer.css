@@ -34,6 +34,9 @@
     cursor: default;
     font-size: 0.75rem;
     white-space: nowrap;
+    &.selected {
+      font-weight: 600;
+    }
     &.sub-item {
       margin-left: 0.5rem;
     }
@@ -122,6 +125,7 @@
 .header-bar-item {
   display: flex;
   width: 100%;
+  gap: 0.25rem;
 }
 .content-display {
   height: 15.625rem;
