@@ -1,0 +1,199 @@
+<div class="layout-wrapper">
+  <div class="layout-container">
+    <div class="layout-header">
+      <h1>Document Viewer</h1>
+      <span
+        >View and agree to the documents shown. Select any document to view it.
+        When you agree to the document, and the changes, indicate so by checking
+        the checkbox. When all documents are agreed to, you can submit the
+        agreement clicking the button below the list of documents.</span
+      >
+    </div>
+    <div class="document-viewer">
+      <div class="web-preview-box-container">
+        <div class="preview-box">
+          @if (files$ | async; as files) {
+            @if (files.length === 0) {
+              <div class="loader-container">
+                <span class="loader"></span>
+              </div>
+            } @else {
+              @for (fileType of fileTypes; track fileType) {
+                <div class="preview-box-files-of-type">
+                  <div class="header" (click)="selectFileType(fileType)">
+                    <input
+                      type="checkbox"
+                      value=""
+                      id="checkbox-{{ fileType }}"
+                      [checked]="checkedFileTypes.includes(fileType)"
+                      (change)="agreeToFileTypeChange($event, fileType)"
+                    />
+                    <span>{{ fileType }}</span>
+                  </div>
+                  @for (
+                    file of groupedFilesByType[fileType];
+                    track file.legalFileRecordId
+                  ) {
+                    <div
+                      class="preview-box-file"
+                      [ngClass]="{
+                        'sub-item': file.changesOnly,
+                        selected:
+                          selectedFile?.legalFileRecordId ===
+                          file.legalFileRecordId,
+                      }"
+                      (click)="selectFile(file)"
+                    >
+                      <p>{{ file.fileName }}</p>
+                    </div>
+                  }
+                </div>
+              }
+            }
+          } @else {
+            <div class="loader-container">
+              <span class="loader"></span>
+            </div>
+          }
+        </div>
+        <button
+          [disabled]="!allFilesSelected"
+          [class.disabled]="!allFilesSelected"
+          (click)="submitAgreement()"
+          class="button"
+        >
+          Submit Agreement
+        </button>
+      </div>
+
+      <div class="right-content-panel">
+        <div class="mobile-preview-box-container">
+          <div class="preview-box">
+            @if (files$ | async; as files) {
+              @if (files.length === 0) {
+                <div class="loader-container">
+                  <span class="loader"></span>
+                </div>
+              } @else {
+                @for (fileType of fileTypes; track fileType) {
+                  <div class="preview-box-files-of-type">
+                    <div class="header" (click)="selectFileType(fileType)">
+                      <input
+                        type="checkbox"
+                        value=""
+                        id="checkbox-{{ fileType }}"
+                        [checked]="checkedFileTypes.includes(fileType)"
+                        (change)="agreeToFileTypeChange($event, fileType)"
+                      />
+                      <span>{{ fileType }}</span>
+                    </div>
+                    @for (
+                      file of groupedFilesByType[fileType];
+                      track file.legalFileRecordId
+                    ) {
+                      <div
+                        class="preview-box-file"
+                        [ngClass]="{
+                          'sub-item': file.changesOnly,
+                          selected:
+                            selectedFile?.legalFileRecordId ===
+                            file.legalFileRecordId,
+                        }"
+                        (click)="selectFile(file)"
+                      >
+                        <p>{{ file.fileName }}</p>
+                      </div>
+                    }
+                  </div>
+                }
+              }
+            } @else {
+              <div class="loader-container">
+                <span class="loader"></span>
+              </div>
+            }
+          </div>
+          <button
+            [disabled]="!allFilesSelected"
+            [class.disabled]="!allFilesSelected"
+            (click)="submitAgreement()"
+            class="button"
+          >
+            Submit Agreement
+          </button>
+        </div>
+
+        <div class="header-bar">
+          <div class="header-bar-item">
+            <span class="label">Filename:</span
+            ><span class="label">{{
+              selectedFile?.fileName || 'No file selected'
+            }}</span>
+          </div>
+          <div class="header-bar-item">
+            <span class="label">Type:</span
+            ><span class="label">{{ selectedFile?.type || 'N/A' }}</span>
+          </div>
+        </div>
+        <div class="content-display">
+          <span
+            [class.hidden]="fileUrl.length > 0 || errorMessage"
+            class="content-display-text"
+            >No document selected, please select a document to view.</span
+          >
+          <span [class.hidden]="!errorMessage" class="content-display-text">{{
+            errorMessage
+          }}</span>
+
+          <div
+            [class.hidden]="
+              (!pdfLoading || errorMessage) && loadingState() !== 'loading'
+            "
+            [class.pdf-loader]="pdfLoading"
+          >
+            <span class="content-display-text">Loading PDF...</span>
+            <span class="loader"></span>
+          </div>
+
+          @let pdfVisible = fileUrl.length > 0 && errorMessage === '';
+          <pdf-viewer
+            [ngClass]="{
+              hidden: !pdfVisible,
+              offscreen: pdfLoading,
+            }"
+            [src]="fileUrl"
+            [render-text]="true"
+            [original-size]="false"
+            [autoresize]="true"
+            (error)="onPDFError($event)"
+            class="pdf-viewer"
+            style="width: 100%; height: 100%"
+            (after-load-complete)="setPDFLoading(false)"
+          ></pdf-viewer>
+        </div>
+        <div class="button-group">
+          <button
+            [disabled]="!selectedFile"
+            [class.disabled]="!selectedFile"
+            class="button"
+            (click)="downloadFile()"
+          >
+            Download
+          </button>
+          <a
+            [class.disabled]="!selectedFile"
+            class="button"
+            [href]="fileUrl"
+            target="_blank"
+          >
+            <span>Open</span>
+            <img
+              src="assets/images/open-in-new-window.svg"
+              height="16"
+              width="16"
+          /></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

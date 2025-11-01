@@ -1,6 +1,6 @@
 export type File = {
   legalFileRecordId: string;
-  type: 'VENDOR AGREEMENT' | 'TERMS OF SERVICE';
+  type: string;
   fileName: string;
   version: number;
   changesOnly: boolean;
