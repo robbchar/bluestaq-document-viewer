@@ -41,7 +41,6 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "ng2-pdf-viewer": "^10.4.0",
-    "ngx-extended-pdf-viewer": "25.5.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

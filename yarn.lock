@@ -3112,7 +3112,6 @@ __metadata:
     karma-jasmine: "npm:~5.1.0"
     karma-jasmine-html-reporter: "npm:~2.1.0"
     ng2-pdf-viewer: "npm:^10.4.0"
-    ngx-extended-pdf-viewer: "npm:25.5.1"
     prettier: "npm:^3.6.2"
     rxjs: "npm:~7.8.0"
     tslib: "npm:^2.3.0"
@@ -5953,18 +5952,6 @@ __metadata:
     pdfjs-dist: "npm:4.8.69"
     tslib: "npm:^2.8.1"
   checksum: 10c0/56ea2c24e46476dd15e36208ec6cd9796c745ec4e057580200989976db5c7e4f97bb14d13486ad455224418927e3a5749c07a57a978070678c8fead94916f5d6
-  languageName: node
-  linkType: hard
-
-"ngx-extended-pdf-viewer@npm:25.5.1":
-  version: 25.5.1
-  resolution: "ngx-extended-pdf-viewer@npm:25.5.1"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/common": ">=17.0.0 <21.0.0"
-    "@angular/core": ">=17.0.0 <21.0.0"
-  checksum: 10c0/09027b43e703e8f6ea997e3ed3e1d11da902b320f2f2d3d713a92eed8011c769f64a4a02f7bb4a49117dcd340c6045ef10b6d7ae0264363a24f4211fad780c1c
   languageName: node
   linkType: hard
 

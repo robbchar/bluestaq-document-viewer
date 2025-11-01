@@ -110,14 +110,21 @@
           <span [class.hidden]="fileUrl" class="content-display-text"
             >No document selected, please select a document to view.</span
           >
+          <div [class.hidden]="!pdfLoading" [class.pdf-loader]="pdfLoading">
+            <span class="content-display-text">Loading PDF...</span>
+            <span class="loader"></span>
+          </div>
 
           <pdf-viewer
             [class.hidden]="!fileUrl"
+            [class.offscreen]="pdfLoading"
             [src]="fileUrl"
             [render-text]="true"
             [original-size]="false"
             [autoresize]="true"
+            class="pdf-viewer"
             style="width: 100%; height: 100%"
+            (after-load-complete)="callBackFn()"
           ></pdf-viewer>
         </div>
         <div class="button-group">

@@ -18,6 +18,7 @@ export class DocumentViewer {
   fileTypes: string[] = [];
   checkedFileTypes: string[] = [];
   allFilesSelected: boolean = false;
+  pdfLoading: boolean = false;
 
   constructor(private apiService: ApiService) {
     this.loadFiles();
@@ -35,10 +36,13 @@ export class DocumentViewer {
   }
 
   selectFile(file: File) {
-    this.selectedFile = file;
-    this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(
-      file.legalFileRecordId,
-    );
+    if (file !== this.selectedFile) {
+      this.selectedFile = file;
+      this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(
+        file.legalFileRecordId,
+      );
+      this.pdfLoading = true;
+    }
   }
 
   public downloadFile(): void {
@@ -81,5 +85,9 @@ export class DocumentViewer {
       'agreed to files',
       this.files.map((file) => file.legalFileRecordId),
     );
+  }
+
+  callBackFn() {
+    this.pdfLoading = false;
   }
 }
