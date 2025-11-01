@@ -29,7 +29,7 @@ export class ApiService {
     return `${this.host}/api/data/file/path/${legalFileRecordId}`;
   }
 
-  downloadFileByLegalFileRecordId(legalFileRecordId: string): string {
+  getDownloadFileUrlByLegalFileRecordId(legalFileRecordId: string): string {
     return `${this.host}/api/data/file/download/${legalFileRecordId}`;
   }
 }

@@ -77,7 +77,7 @@ export class DocumentViewer {
 
   public downloadFile(): void {
     if (this.selectedFile) {
-      const filePath = this.apiService.downloadFileByLegalFileRecordId(
+      const filePath = this.apiService.getDownloadFileUrlByLegalFileRecordId(
         this.selectedFile.legalFileRecordId,
       );
       const link = this.document.createElement('a');
