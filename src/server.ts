@@ -46,7 +46,7 @@ app.get('/api/data/file/download/:legalFileRecordId', (req, res) => {
   if (!existsSync(filePath)) {
     res.status(404).json({ error: 'File not found' });
   } else {
-    res.sendFile(filePath);
+    res.download(filePath);
   }
 });
 
