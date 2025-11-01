@@ -12,6 +12,12 @@
     <div class="document-viewer">
       <div class="web-preview-box-container">
         <div class="preview-box">
+          <div
+            [class.hidden]="files.length > 0"
+            [class.loader-container]="files.length === 0"
+          >
+            <span class="loader"></span>
+          </div>
           @for (fileType of fileTypes; track fileType) {
             <div class="preview-box-files-of-type">
               <div class="header" (click)="selectFileType(fileType)">
@@ -105,20 +111,14 @@
             >No document selected, please select a document to view.</span
           >
 
-          @defer {
-            <pdf-viewer
-              [class.hidden]="!fileUrl"
-              [src]="fileUrl"
-              [render-text]="true"
-              [original-size]="false"
-              [autoresize]="true"
-              style="width: 100%; height: 100%"
-            ></pdf-viewer>
-          } @placeholder {
-            <div>Loading PDF viewer...</div>
-          } @loading {
-            <div>Loading PDF...</div>
-          }
+          <pdf-viewer
+            [class.hidden]="!fileUrl"
+            [src]="fileUrl"
+            [render-text]="true"
+            [original-size]="false"
+            [autoresize]="true"
+            style="width: 100%; height: 100%"
+          ></pdf-viewer>
         </div>
         <div class="button-group">
           <button
