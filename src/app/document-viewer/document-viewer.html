@@ -3,10 +3,10 @@
     <div class="layout-header">
       <h1>Document Viewer</h1>
       <span
-        >View and agree to the documents shown. Select any document to view it,
-        when you agree to the document, and the changes, indicates so by the
-        checkbox. When all documents are agreed to, you can submit the agreement
-        using the button below the list of documents.</span
+        >View and agree to the documents shown. Select any document to view it.
+        When you agree to the document, and the changes, indicate so by checking
+        the checkbox. When all documents are agreed to, you can submit the
+        agreement clicking the button below the list of documents.</span
       >
     </div>
     <div class="document-viewer">
@@ -70,35 +70,42 @@
         <div class="mobile-preview-box-container">
           <div class="preview-box">
             @if (files$ | async; as files) {
-              @for (fileType of fileTypes; track fileType) {
-                <div class="preview-box-files-of-type">
-                  <div class="header" (click)="selectFileType(fileType)">
-                    <input
-                      type="checkbox"
-                      value=""
-                      id="checkbox-{{ fileType }}"
-                      (change)="agreeToFileTypeChange($event, fileType)"
-                    />
-                    <span>{{ fileType }}</span>
-                  </div>
-                  @for (
-                    file of groupedFilesByType[fileType];
-                    track file.legalFileRecordId
-                  ) {
-                    <div
-                      class="preview-box-file"
-                      [ngClass]="{
-                        'sub-item': file.changesOnly,
-                        selected:
-                          selectedFile?.legalFileRecordId ===
-                          file.legalFileRecordId,
-                      }"
-                      (click)="selectFile(file)"
-                    >
-                      <p>{{ file.fileName }}</p>
-                    </div>
-                  }
+              @if (files.length === 0) {
+                <div class="loader-container">
+                  <span class="loader"></span>
                 </div>
+              } @else {
+                @for (fileType of fileTypes; track fileType) {
+                  <div class="preview-box-files-of-type">
+                    <div class="header" (click)="selectFileType(fileType)">
+                      <input
+                        type="checkbox"
+                        value=""
+                        id="checkbox-{{ fileType }}"
+                        [checked]="checkedFileTypes.includes(fileType)"
+                        (change)="agreeToFileTypeChange($event, fileType)"
+                      />
+                      <span>{{ fileType }}</span>
+                    </div>
+                    @for (
+                      file of groupedFilesByType[fileType];
+                      track file.legalFileRecordId
+                    ) {
+                      <div
+                        class="preview-box-file"
+                        [ngClass]="{
+                          'sub-item': file.changesOnly,
+                          selected:
+                            selectedFile?.legalFileRecordId ===
+                            file.legalFileRecordId,
+                        }"
+                        (click)="selectFile(file)"
+                      >
+                        <p>{{ file.fileName }}</p>
+                      </div>
+                    }
+                  </div>
+                }
               }
             } @else {
               <div class="loader-container">
@@ -110,6 +117,7 @@
             [disabled]="!allFilesSelected"
             [class.disabled]="!allFilesSelected"
             (click)="submitAgreement()"
+            class="button"
           >
             Submit Agreement
           </button>

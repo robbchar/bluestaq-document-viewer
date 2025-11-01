@@ -16,7 +16,6 @@ export class DocumentViewer {
   files: File[] = [];
   selectedFile: File | null = null;
   fileUrl: string = '';
-  checkedFileIds: string[] = [];
   fileTypes: string[] = [];
   checkedFileTypes: string[] = [];
   allFilesSelected: boolean = false;
@@ -47,7 +46,8 @@ export class DocumentViewer {
       catchError((error) => {
         this.loadingState.set('error');
         console.error('Failed to load files:', error);
-        this.errorMessage = 'Failed to load documents. Please reload the page in a moment.';
+        this.errorMessage =
+          'Failed to load documents. Please reload the page in a moment.';
         return of([]);
       }),
     );
@@ -56,7 +56,9 @@ export class DocumentViewer {
   autoSelectDefaultFile() {
     if (this.fileTypes.length > 0) {
       const firstType = this.fileTypes[0];
-      const completeFile = this.groupedFilesByType[firstType].find((f) => !f.changesOnly);
+      const completeFile = this.groupedFilesByType[firstType].find(
+        (f) => !f.changesOnly,
+      );
       if (completeFile) {
         this.selectFile(completeFile);
       }
@@ -66,7 +68,9 @@ export class DocumentViewer {
   selectFile(file: File) {
     if (file !== this.selectedFile) {
       this.selectedFile = file;
-      this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(file.legalFileRecordId);
+      this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(
+        file.legalFileRecordId,
+      );
       this.setPDFLoading(true);
     }
   }
@@ -88,7 +92,9 @@ export class DocumentViewer {
   public selectFileType(fileType: string) {
     const filesByType = this.files.filter((file) => file.type === fileType);
     if (filesByType.length > 0) {
-      const completeFiles = filesByType.filter((file) => file.changesOnly === false);
+      const completeFiles = filesByType.filter(
+        (file) => file.changesOnly === false,
+      );
       if (completeFiles.length > 0) {
         this.selectFile(completeFiles[0]);
       }
@@ -100,9 +106,12 @@ export class DocumentViewer {
     if (isChecked) {
       this.checkedFileTypes.push(fileType);
     } else {
-      this.checkedFileTypes = this.checkedFileTypes.filter((type) => type !== fileType);
+      this.checkedFileTypes = this.checkedFileTypes.filter(
+        (type) => type !== fileType,
+      );
     }
-    this.allFilesSelected = this.checkedFileTypes.length === this.fileTypes.length;
+    this.allFilesSelected =
+      this.checkedFileTypes.length === this.fileTypes.length;
   }
 
   submitAgreement() {
