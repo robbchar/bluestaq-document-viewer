@@ -63,9 +63,8 @@ export class DocumentViewer {
     }
   }
 
-  agreeToFileTypeChange(event: Event) {
+  agreeToFileTypeChange(event: Event, fileType: string) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    const fileType = (event.target as HTMLInputElement).value;
     if (isChecked) {
       this.checkedFileTypes.push(fileType);
     } else {

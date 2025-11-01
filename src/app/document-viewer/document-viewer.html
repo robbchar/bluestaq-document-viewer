@@ -13,17 +13,17 @@
       <div class="web-preview-box-container">
         <div class="preview-box">
           @for (fileType of fileTypes; track fileType) {
-            @let filteredFiles = getFilesByType(fileType);
             <div class="preview-box-files-of-type">
               <div class="header" (click)="selectFileType(fileType)">
                 <input
                   type="checkbox"
                   value=""
                   id="checkbox-{{ fileType }}"
-                  (change)="agreeToFileTypeChange($event)"
+                  (change)="agreeToFileTypeChange($event, fileType)"
                 />
                 <span>{{ fileType }}</span>
               </div>
+              @let filteredFiles = getFilesByType(fileType);
               @for (file of filteredFiles; track file.legalFileRecordId) {
                 <div
                   class="preview-box-file"
@@ -53,17 +53,17 @@
         <div class="mobile-preview-box-container">
           <div class="preview-box">
             @for (fileType of fileTypes; track fileType) {
-              @let filteredFiles = getFilesByType(fileType);
               <div class="preview-box-files-of-type">
                 <div class="header" (click)="selectFileType(fileType)">
                   <input
                     type="checkbox"
                     value=""
                     id="checkbox-{{ fileType }}"
-                    (change)="agreeToFileTypeChange($event)"
+                    (change)="agreeToFileTypeChange($event, fileType)"
                   />
                   <span>{{ fileType }}</span>
                 </div>
+                @let filteredFiles = getFilesByType(fileType);
                 @for (file of filteredFiles; track file.legalFileRecordId) {
                   <div
                     class="preview-box-file"

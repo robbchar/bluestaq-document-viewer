@@ -19,6 +19,10 @@
 
 .layout-header {
   padding: 0.25rem;
+  span {
+    text-align: justify;
+    text-wrap: pretty;
+  }
 }
 
 .document-viewer {
@@ -123,7 +127,6 @@
   flex-direction: column;
   width: 100%;
   gap: 0.5rem;
-  padding: 0.625rem;
   background-color: #e0e0e0;
   border-radius: 0.5rem;
 }
