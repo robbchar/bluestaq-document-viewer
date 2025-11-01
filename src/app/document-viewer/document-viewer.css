@@ -61,7 +61,7 @@
       font-size: 0.75rem;
       white-space: nowrap;
       &.selected {
-        font-weight: 600;
+        font-weight: 700;
       }
       &.sub-item {
         p {
@@ -134,8 +134,6 @@
 .header-bar {
   display: flex;
   flex-direction: column;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
 }
 
 .header-bar-item {

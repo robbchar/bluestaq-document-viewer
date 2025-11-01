@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, DOCUMENT, inject, signal } from '@angular/core';
 import { ApiService } from '../services/api-service';
 import { File } from '../types';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { CommonModule } from '@angular/common';
+import { Observable, tap, shareReplay, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-document-viewer',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './document-viewer.css',
 })
 export class DocumentViewer {
+  files$!: Observable<File[]>;
   files: File[] = [];
   selectedFile: File | null = null;
   fileUrl: string = '';
@@ -19,20 +21,49 @@ export class DocumentViewer {
   checkedFileTypes: string[] = [];
   allFilesSelected: boolean = false;
   pdfLoading: boolean = false;
+  errorMessage: string = '';
+  groupedFilesByType: Record<string, File[]> = {};
+  loadingState = signal<'idle' | 'loading' | 'error' | 'success'>('idle');
+  private readonly document = inject(DOCUMENT);
 
   constructor(private apiService: ApiService) {
-    this.loadFiles();
+    this.loadingState.set('loading');
+    this.files$ = this.apiService.getData().pipe(
+      tap((data) => {
+        this.loadingState.set('success');
+        this.fileTypes = [...new Set(data.map((file) => file.type))];
+        this.files = data;
+        this.groupedFilesByType = this.fileTypes.reduce(
+          (acc, type) => {
+            acc[type] = this.files.filter((f) => f.type === type);
+            return acc;
+          },
+          {} as Record<string, File[]>,
+        );
+
+        this.autoSelectDefaultFile();
+      }),
+      shareReplay(1),
+      catchError((error) => {
+        this.loadingState.set('error');
+        console.error('Failed to load files:', error);
+        this.errorMessage =
+          'Failed to load documents. Please reload the page in a moment.';
+        return of([]);
+      }),
+    );
   }
 
-  loadFiles() {
-    this.apiService.getData().subscribe((data) => {
-      this.files = data;
-      this.fileTypes = [...new Set(data.map((file) => file.type))];
-    });
-  }
-
-  getFilesByType(fileType: string): File[] {
-    return this.files.filter((file) => file.type === fileType);
+  autoSelectDefaultFile() {
+    if (this.fileTypes.length > 0) {
+      const firstType = this.fileTypes[0];
+      const completeFile = this.groupedFilesByType[firstType].find(
+        (f) => !f.changesOnly,
+      );
+      if (completeFile) {
+        this.selectFile(completeFile);
+      }
+    }
   }
 
   selectFile(file: File) {
@@ -41,7 +72,7 @@ export class DocumentViewer {
       this.fileUrl = this.apiService.getFileUrlByLegalFileRecordId(
         file.legalFileRecordId,
       );
-      this.pdfLoading = true;
+      this.setPDFLoading(true);
     }
   }
 
@@ -50,20 +81,24 @@ export class DocumentViewer {
       const filePath = this.apiService.downloadFileByLegalFileRecordId(
         this.selectedFile.legalFileRecordId,
       );
-      const a = document.createElement('a');
-      a.href = filePath;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const link = this.document.createElement('a');
+      link.href = filePath;
+      link.download = this.selectedFile.fileName;
+      this.document.body.appendChild(link);
+      link.click();
+      this.document.body.removeChild(link);
     }
   }
 
   public selectFileType(fileType: string) {
-    const completeFiles = this.files
-      .filter((file) => file.type === fileType)
-      .filter((file) => file.changesOnly === false);
-    if (completeFiles.length > 0) {
-      this.selectFile(completeFiles[0]);
+    const filesByType = this.files.filter((file) => file.type === fileType);
+    if (filesByType.length > 0) {
+      const completeFiles = filesByType.filter(
+        (file) => file.changesOnly === false,
+      );
+      if (completeFiles.length > 0) {
+        this.selectFile(completeFiles[0]);
+      }
     }
   }
 
@@ -87,7 +122,14 @@ export class DocumentViewer {
     );
   }
 
-  callBackFn() {
-    this.pdfLoading = false;
+  onPDFError($event: unknown) {
+    console.error('PDF error:', $event);
+    this.errorMessage = 'Failed to load PDF file. Please try again.';
+    this.setPDFLoading(false);
+    this.loadingState.set('error');
+  }
+
+  setPDFLoading(loading: boolean) {
+    this.pdfLoading = loading;
   }
 }
