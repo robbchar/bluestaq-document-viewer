@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { DocumentViewer } from './document-viewer/document-viewer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [DocumentViewer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
