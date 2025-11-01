@@ -25,10 +25,6 @@ export class ApiService {
     return this.http.post<string>(apiUrl, { fileIds });
   }
 
-  getFileUrl(legalFileRecordId: string): string {
-    return `${this.host}/api/data/file/path/${legalFileRecordId}`;
-  }
-
   getFileUrlByLegalFileRecordId(legalFileRecordId: string): string {
     return `${this.host}/api/data/file/path/${legalFileRecordId}`;
   }

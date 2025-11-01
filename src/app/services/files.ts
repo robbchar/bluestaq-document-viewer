@@ -19,25 +19,24 @@ export const getFilePathByLegalFileRecordId = (
   legalFileRecordId: string,
   cwd: string = process.cwd(),
 ): string => {
-  // In development: resolve from src directory
-  // In production (after build): resolve from server dist directory
-  // Try multiple paths to handle both dev and production scenarios
-  const possiblePaths = [
-    // Production: assets should be copied to server dist/assets
-    join(cwd, '../assets/files', legalFileRecordId + '.pdf'),
-    // Development: assets in src directory
-    join(cwd, '../../assets/files', legalFileRecordId + '.pdf'),
-    // Fallback: try from cwd
-    join(cwd, 'src/assets/files', legalFileRecordId + '.pdf'),
-  ];
+  // const possiblePaths = [
+  //   // Production: assets should be copied to server dist/assets
+  //   join(cwd, '../assets/files', legalFileRecordId + '.pdf'),
+  //   // Development: assets in src directory
+  //   join(cwd, '../../assets/files', legalFileRecordId + '.pdf'),
+  //   // Fallback: try from cwd
+  //   join(cwd, 'src/assets/files', legalFileRecordId + '.pdf'),
+  // ];
 
+  const path = join(cwd, 'src/assets/files', legalFileRecordId + '.pdf');
   // Return the first path that exists, or the production path as default
-  for (const path of possiblePaths) {
-    if (existsSync(path)) {
-      return path;
-    }
+  // for (const path of possiblePaths) {
+  if (existsSync(path)) {
+    return path;
   }
+  throw new Error(`File not found: ${path}`);
+  // }
 
   // Default to production path
-  return possiblePaths[0];
+  // return possiblePaths[0];
 };

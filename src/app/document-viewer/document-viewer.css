@@ -176,7 +176,6 @@
   display: none;
 }
 
-/* --- Web Version (Media Query - Max 75rem) --- */
 @media (min-width: 28.25rem) {
   .layout-container {
     max-width: 75rem;

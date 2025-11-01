@@ -63,22 +63,15 @@ h6 {
   text-wrap: balance;
 }
 
-#root,
-#__next {
-  isolation: isolate;
-}
-
 /* end reset */
 
 body {
   padding: 0;
   margin: 0;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, sans-serif;
   background-color: rgb(177, 177, 177);
-  /* display: flex;
-  justify-content: center;
-  align-items: flex-start; */
   min-height: 100dvh;
   box-sizing: border-box;
 }
