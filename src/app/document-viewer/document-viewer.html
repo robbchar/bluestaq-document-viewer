@@ -1,47 +1,63 @@
 <div class="layout-wrapper">
   <div class="layout-container">
-    <div class="web-left-panel">
+    <div class="web-preview-box-container">
       <div class="preview-box">
-        @for (file of files; track file.legalFileRecordId) {
-          <div
-            class="preview-box-item"
-            [class.sub-item]="file.changesOnly"
-            [class.selected]="
-              selectedFile?.legalFileRecordId === file.legalFileRecordId
-            "
-            (click)="selectFile(file)"
-          >
-            <input
-              class="preview-box-item"
-              type="checkbox"
-              value=""
-              id="checkbox-{{ file.legalFileRecordId }}"
-            />
-            <p>{{ file.fileName }}</p>
+        @for (fileType of fileTypes; track fileType) {
+          @let filteredFiles = getFilesByType(fileType);
+          <div class="preview-box-files-of-type">
+            <div class="header" (click)="selectFileType(fileType)">
+              <input
+                type="checkbox"
+                value=""
+                id="checkbox-{{ fileType }}"
+                [checked]="checkedFileTypes.includes(fileType)"
+              />
+              <span>{{ fileType }}</span>
+            </div>
+            @for (file of filteredFiles; track file.legalFileRecordId) {
+              <div
+                class="preview-box-file"
+                [class.sub-item]="file.changesOnly"
+                [class.selected]="
+                  selectedFile?.legalFileRecordId === file.legalFileRecordId
+                "
+                (click)="selectFile(file)"
+              >
+                <p>{{ file.fileName }}</p>
+              </div>
+            }
           </div>
         }
       </div>
     </div>
 
     <div class="right-content-panel">
-      <div class="mobile-preview-box">
+      <div class="mobile-preview-box-container">
         <div class="preview-box">
-          @for (file of files; track file.legalFileRecordId) {
-            <div
-              class="preview-box-item"
-              [class.sub-item]="file.changesOnly"
-              [class.selected]="
-                selectedFile?.legalFileRecordId === file.legalFileRecordId
-              "
-              (click)="selectFile(file)"
-            >
-              <input
-                class="preview-box-item"
-                type="checkbox"
-                value=""
-                id="checkbox-{{ file.legalFileRecordId }}"
-              />
-              <p>{{ file.fileName }}</p>
+          @for (fileType of fileTypes; track fileType) {
+            @let filteredFiles = getFilesByType(fileType);
+            <div class="preview-box-files-of-type">
+              <div class="header" (click)="selectFileType(fileType)">
+                <input
+                  type="checkbox"
+                  value=""
+                  id="checkbox-{{ fileType }}"
+                  [checked]="checkedFileTypes.includes(fileType)"
+                />
+                <span>{{ fileType }}</span>
+              </div>
+              @for (file of filteredFiles; track file.legalFileRecordId) {
+                <div
+                  class="preview-box-file"
+                  [class.sub-item]="file.changesOnly"
+                  [class.selected]="
+                    selectedFile?.legalFileRecordId === file.legalFileRecordId
+                  "
+                  (click)="selectFile(file)"
+                >
+                  <p>{{ file.fileName }}</p>
+                </div>
+              }
             </div>
           }
         </div>
@@ -93,8 +109,13 @@
           class="button"
           [href]="fileUrl"
           target="_blank"
-          >Open</a
         >
+          <span>Open</span>
+          <img
+            src="assets/images/open-in-new-window.svg"
+            height="16"
+            width="16"
+        /></a>
       </div>
     </div>
   </div>

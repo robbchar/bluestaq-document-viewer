@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { ApiService } from '../services/api-service';
 import { File } from '../types';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-document-viewer',
-  imports: [PdfViewerModule],
+  imports: [PdfViewerModule, CommonModule],
   templateUrl: './document-viewer.html',
   styleUrl: './document-viewer.css',
 })
@@ -13,6 +14,9 @@ export class DocumentViewer {
   files: File[] = [];
   selectedFile: File | null = null;
   fileUrl: string = '';
+  checkedFileIds: string[] = [];
+  fileTypes: string[] = [];
+  checkedFileTypes: string[] = [];
   constructor(private apiService: ApiService) {
     this.loadFiles();
   }
@@ -20,7 +24,12 @@ export class DocumentViewer {
   loadFiles() {
     this.apiService.getData().subscribe((data) => {
       this.files = data;
+      this.fileTypes = [...new Set(data.map((file) => file.type))];
     });
+  }
+
+  getFilesByType(fileType: string): File[] {
+    return this.files.filter((file) => file.type === fileType);
   }
 
   selectFile(file: File) {
@@ -37,10 +46,25 @@ export class DocumentViewer {
       );
       const a = document.createElement('a');
       a.href = filePath;
-      document.body.appendChild(a); // Append to body to make it clickable
+      document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a); // Clean up
-      window.URL.revokeObjectURL(a.href); // Release the object URL
+      document.body.removeChild(a);
     }
+  }
+
+  public selectFileType(fileType: string) {
+    const completeFiles = this.files
+      .filter((file) => file.type === fileType)
+      .filter((file) => file.changesOnly === false);
+    if (completeFiles.length > 0) {
+      this.selectFile(completeFiles[0]);
+    }
+    // if (this.checkedFileTypes.includes(fileType)) {
+    //   this.checkedFileTypes = this.checkedFileTypes.filter(
+    //     (type) => type !== fileType,
+    //   );
+    // } else {
+    //   this.checkedFileTypes.push(fileType);
+    // }
   }
 }
