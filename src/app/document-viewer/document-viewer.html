@@ -1,38 +1,16 @@
 <div class="layout-wrapper">
   <div class="layout-container">
-    <div class="web-preview-box-container">
-      <div class="preview-box">
-        @for (fileType of fileTypes; track fileType) {
-          @let filteredFiles = getFilesByType(fileType);
-          <div class="preview-box-files-of-type">
-            <div class="header" (click)="selectFileType(fileType)">
-              <input
-                type="checkbox"
-                value=""
-                id="checkbox-{{ fileType }}"
-                [checked]="checkedFileTypes.includes(fileType)"
-              />
-              <span>{{ fileType }}</span>
-            </div>
-            @for (file of filteredFiles; track file.legalFileRecordId) {
-              <div
-                class="preview-box-file"
-                [class.sub-item]="file.changesOnly"
-                [class.selected]="
-                  selectedFile?.legalFileRecordId === file.legalFileRecordId
-                "
-                (click)="selectFile(file)"
-              >
-                <p>{{ file.fileName }}</p>
-              </div>
-            }
-          </div>
-        }
-      </div>
+    <div class="layout-header">
+      <h1>Document Viewer</h1>
+      <span
+        >View and agree to the documents shown. Select any document to view it,
+        when you agree to the document, and the changes, indicates so by the
+        checkbox. When all documents are agreed to, you can submit the agreement
+        using the button below the list of documents.</span
+      >
     </div>
-
-    <div class="right-content-panel">
-      <div class="mobile-preview-box-container">
+    <div class="document-viewer">
+      <div class="web-preview-box-container">
         <div class="preview-box">
           @for (fileType of fileTypes; track fileType) {
             @let filteredFiles = getFilesByType(fileType);
@@ -42,7 +20,7 @@
                   type="checkbox"
                   value=""
                   id="checkbox-{{ fileType }}"
-                  [checked]="checkedFileTypes.includes(fileType)"
+                  (change)="agreeToFileTypeChange($event)"
                 />
                 <span>{{ fileType }}</span>
               </div>
@@ -61,61 +39,109 @@
             </div>
           }
         </div>
-      </div>
-
-      <div class="header-bar">
-        <div class="header-bar-item">
-          <span class="label">Filename:</span
-          ><span class="label">{{
-            selectedFile?.fileName || 'No file selected'
-          }}</span>
-        </div>
-        <div class="header-bar-item">
-          <span class="label">Type:</span
-          ><span class="label">{{ selectedFile?.type || 'N/A' }}</span>
-        </div>
-      </div>
-      <div class="content-display">
-        <span [class.hidden]="fileUrl" class="content-display-text"
-          >No document selected, please select a document to view.</span
-        >
-
-        @defer {
-          <pdf-viewer
-            [class.hidden]="!fileUrl"
-            [src]="fileUrl"
-            [render-text]="true"
-            [original-size]="false"
-            [autoresize]="true"
-            style="width: 100%; height: 100%"
-          ></pdf-viewer>
-        } @placeholder {
-          <div>Loading PDF viewer...</div>
-        } @loading {
-          <div>Loading PDF...</div>
-        }
-      </div>
-      <div class="button-group">
         <button
-          [disabled]="!selectedFile"
-          [class.disabled]="!selectedFile"
+          [disabled]="!allFilesSelected"
+          [class.disabled]="!allFilesSelected"
+          (click)="submitAgreement()"
           class="button"
-          (click)="downloadFile()"
         >
-          Download
+          Submit Agreement
         </button>
-        <a
-          [class.disabled]="!selectedFile"
-          class="button"
-          [href]="fileUrl"
-          target="_blank"
-        >
-          <span>Open</span>
-          <img
-            src="assets/images/open-in-new-window.svg"
-            height="16"
-            width="16"
-        /></a>
+      </div>
+
+      <div class="right-content-panel">
+        <div class="mobile-preview-box-container">
+          <div class="preview-box">
+            @for (fileType of fileTypes; track fileType) {
+              @let filteredFiles = getFilesByType(fileType);
+              <div class="preview-box-files-of-type">
+                <div class="header" (click)="selectFileType(fileType)">
+                  <input
+                    type="checkbox"
+                    value=""
+                    id="checkbox-{{ fileType }}"
+                    (change)="agreeToFileTypeChange($event)"
+                  />
+                  <span>{{ fileType }}</span>
+                </div>
+                @for (file of filteredFiles; track file.legalFileRecordId) {
+                  <div
+                    class="preview-box-file"
+                    [class.sub-item]="file.changesOnly"
+                    [class.selected]="
+                      selectedFile?.legalFileRecordId === file.legalFileRecordId
+                    "
+                    (click)="selectFile(file)"
+                  >
+                    <p>{{ file.fileName }}</p>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+          <button
+            [disabled]="!allFilesSelected"
+            [class.disabled]="!allFilesSelected"
+            (click)="submitAgreement()"
+          >
+            Submit Agreement
+          </button>
+        </div>
+
+        <div class="header-bar">
+          <div class="header-bar-item">
+            <span class="label">Filename:</span
+            ><span class="label">{{
+              selectedFile?.fileName || 'No file selected'
+            }}</span>
+          </div>
+          <div class="header-bar-item">
+            <span class="label">Type:</span
+            ><span class="label">{{ selectedFile?.type || 'N/A' }}</span>
+          </div>
+        </div>
+        <div class="content-display">
+          <span [class.hidden]="fileUrl" class="content-display-text"
+            >No document selected, please select a document to view.</span
+          >
+
+          @defer {
+            <pdf-viewer
+              [class.hidden]="!fileUrl"
+              [src]="fileUrl"
+              [render-text]="true"
+              [original-size]="false"
+              [autoresize]="true"
+              style="width: 100%; height: 100%"
+            ></pdf-viewer>
+          } @placeholder {
+            <div>Loading PDF viewer...</div>
+          } @loading {
+            <div>Loading PDF...</div>
+          }
+        </div>
+        <div class="button-group">
+          <button
+            [disabled]="!selectedFile"
+            [class.disabled]="!selectedFile"
+            class="button"
+            (click)="downloadFile()"
+          >
+            Download
+          </button>
+          <a
+            [class.disabled]="!selectedFile"
+            class="button"
+            [href]="fileUrl"
+            target="_blank"
+          >
+            <span>Open</span>
+            <img
+              src="assets/images/open-in-new-window.svg"
+              height="16"
+              width="16"
+          /></a>
+        </div>
       </div>
     </div>
   </div>

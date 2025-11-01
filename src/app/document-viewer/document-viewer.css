@@ -6,14 +6,24 @@
 
 .layout-container {
   display: flex;
+  flex-direction: column;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
   background-color: #e0e0e0;
   flex-direction: column;
-  max-width: 25rem;
   width: 100%;
   border-radius: 0;
+  padding: 0;
+}
+
+.layout-header {
+  padding: 0.25rem;
+}
+
+.document-viewer {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .preview-box {
@@ -168,9 +178,9 @@
 /* --- Web Version (Media Query - Max 75rem) --- */
 @media (min-width: 28.25rem) {
   .layout-container {
-    flex-direction: row;
     max-width: 75rem;
     width: 90%;
+    padding: 0.25rem;
   }
 
   .web-preview-box-container {
@@ -185,7 +195,7 @@
 
   .right-content-panel {
     flex-grow: 1;
-    padding: 0.25rem;
+    padding: 0;
     padding-top: 0.5rem;
     background-color: #e0e0e0;
     border-top-left-radius: 0;

@@ -17,6 +17,8 @@ export class DocumentViewer {
   checkedFileIds: string[] = [];
   fileTypes: string[] = [];
   checkedFileTypes: string[] = [];
+  allFilesSelected: boolean = false;
+
   constructor(private apiService: ApiService) {
     this.loadFiles();
   }
@@ -59,12 +61,26 @@ export class DocumentViewer {
     if (completeFiles.length > 0) {
       this.selectFile(completeFiles[0]);
     }
-    // if (this.checkedFileTypes.includes(fileType)) {
-    //   this.checkedFileTypes = this.checkedFileTypes.filter(
-    //     (type) => type !== fileType,
-    //   );
-    // } else {
-    //   this.checkedFileTypes.push(fileType);
-    // }
+  }
+
+  agreeToFileTypeChange(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    const fileType = (event.target as HTMLInputElement).value;
+    if (isChecked) {
+      this.checkedFileTypes.push(fileType);
+    } else {
+      this.checkedFileTypes = this.checkedFileTypes.filter(
+        (type) => type !== fileType,
+      );
+    }
+    this.allFilesSelected =
+      this.checkedFileTypes.length === this.fileTypes.length;
+  }
+
+  submitAgreement() {
+    console.log(
+      'agreed to files',
+      this.files.map((file) => file.legalFileRecordId),
+    );
   }
 }
