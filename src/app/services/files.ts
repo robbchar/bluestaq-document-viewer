@@ -1,9 +1,10 @@
 import { join } from 'path';
 import { existsSync } from 'node:fs';
 import files from './files.json';
+import { File } from '../types';
 
-export const getFiles = () => {
-  return files;
+export const getFiles = (): File[] => {
+  return files as File[];
 };
 
 export const getFileById = (id: string) => {
