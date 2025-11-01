@@ -38,13 +38,13 @@ describe('DocumentViewer', () => {
     const apiServiceSpy = jasmine.createSpyObj('ApiService', [
       'getData',
       'getFileUrlByLegalFileRecordId',
-      'downloadFileByLegalFileRecordId',
+      'getDownloadFileUrlByLegalFileRecordId',
       'getUserAgreement',
     ]);
 
     apiServiceSpy.getData.and.returnValue(of(mockFiles));
     apiServiceSpy.getFileUrlByLegalFileRecordId.and.returnValue('/api/file/id');
-    apiServiceSpy.downloadFileByLegalFileRecordId.and.returnValue(
+    apiServiceSpy.getDownloadFileUrlByLegalFileRecordId.and.returnValue(
       '/api/download/id',
     );
 
@@ -114,14 +114,14 @@ describe('DocumentViewer', () => {
       const errorApiService = jasmine.createSpyObj('ApiService', [
         'getData',
         'getFileUrlByLegalFileRecordId',
-        'downloadFileByLegalFileRecordId',
+        'getDownloadFileUrlByLegalFileRecordId',
         'getUserAgreement',
       ]);
       errorApiService.getData.and.returnValue(throwError(() => error));
       errorApiService.getFileUrlByLegalFileRecordId.and.returnValue(
         '/api/file/id',
       );
-      errorApiService.downloadFileByLegalFileRecordId.and.returnValue(
+      errorApiService.getDownloadFileUrlByLegalFileRecordId.and.returnValue(
         '/api/download/id',
       );
 
@@ -149,7 +149,7 @@ describe('DocumentViewer', () => {
       const errorApiService = jasmine.createSpyObj('ApiService', [
         'getData',
         'getFileUrlByLegalFileRecordId',
-        'downloadFileByLegalFileRecordId',
+        'getDownloadFileUrlByLegalFileRecordId',
         'getUserAgreement',
       ]);
       errorApiService.getData.and.returnValue(
@@ -158,7 +158,7 @@ describe('DocumentViewer', () => {
       errorApiService.getFileUrlByLegalFileRecordId.and.returnValue(
         '/api/file/id',
       );
-      errorApiService.downloadFileByLegalFileRecordId.and.returnValue(
+      errorApiService.getDownloadFileUrlByLegalFileRecordId.and.returnValue(
         '/api/download/id',
       );
 
@@ -462,14 +462,14 @@ describe('DocumentViewer', () => {
       const emptyApiService = jasmine.createSpyObj('ApiService', [
         'getData',
         'getFileUrlByLegalFileRecordId',
-        'downloadFileByLegalFileRecordId',
+        'getDownloadFileUrlByLegalFileRecordId',
         'getUserAgreement',
       ]);
       emptyApiService.getData.and.returnValue(of([]));
       emptyApiService.getFileUrlByLegalFileRecordId.and.returnValue(
         '/api/file/id',
       );
-      emptyApiService.downloadFileByLegalFileRecordId.and.returnValue(
+      emptyApiService.getDownloadFileUrlByLegalFileRecordId.and.returnValue(
         '/api/download/id',
       );
 
@@ -506,14 +506,14 @@ describe('DocumentViewer', () => {
       const changesApiService = jasmine.createSpyObj('ApiService', [
         'getData',
         'getFileUrlByLegalFileRecordId',
-        'downloadFileByLegalFileRecordId',
+        'getDownloadFileUrlByLegalFileRecordId',
         'getUserAgreement',
       ]);
       changesApiService.getData.and.returnValue(of(allChangesOnly));
       changesApiService.getFileUrlByLegalFileRecordId.and.returnValue(
         '/api/file/id',
       );
-      changesApiService.downloadFileByLegalFileRecordId.and.returnValue(
+      changesApiService.getDownloadFileUrlByLegalFileRecordId.and.returnValue(
         '/api/download/id',
       );
 
