@@ -3078,9 +3078,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bluestaq-document-app@workspace:.":
+"bluestaq-document-component@workspace:.":
   version: 0.0.0-use.local
-  resolution: "bluestaq-document-app@workspace:."
+  resolution: "bluestaq-document-component@workspace:."
   dependencies:
     "@angular/build": "npm:^20.3.8"
     "@angular/cli": "npm:^20.3.8"

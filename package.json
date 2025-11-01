@@ -1,5 +1,5 @@
 {
-  "name": "bluestaq-document-app",
+  "name": "bluestaq-document-component",
   "packageManager": "yarn@4.10.3",
   "scripts": {
     "ng": "ng",
@@ -10,8 +10,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "server": "tsx src/server.ts",
-    "test": "ng test",
-    "serve:ssr:frontend": "node dist/frontend/server/server.mjs",
+    "test": "ng test --watch=false",
+    "test:watch": "ng test",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md,vue}\"",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
